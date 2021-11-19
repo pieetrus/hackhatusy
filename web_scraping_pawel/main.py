@@ -33,12 +33,16 @@ for link in event_links:
 event_content = get_html(sample_event)
 
 title = event_content.find('title').string # event title
-dates = event_content.find_all('span', class_="eventTimeDisplay-startDate")
-date = dates[0].string # event date
-times = event_content.find_all('span', class_="eventTimeDisplay-startDate-time")
-start_time = times[0].string # event start time
-times = event_content.find_all('span', class_="eventTimeDisplay-endDate-partialTime")
-end_time = (times[0].find_all('span')[0]).string # event end time
-time_zone = (times[0].find_all('span')[1]).string # event time zone
+date_list = event_content.find_all('span', class_="eventTimeDisplay-startDate")
+date = date_list[0].string # event date
+time_list = event_content.find_all('span', class_="eventTimeDisplay-startDate-time")
+start_time = time_list[0].string # event start time
+time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate-partialTime")
+end_time = (time_list[0].find_all('span')[0]).string # event end time
+time_zone = (time_list[0].find_all('span')[1]).string # event time zone
+
+location = event_content.find_all('p', class_="wrap--singleLine--truncate")
+
+print(location)
 
 driver.close()
