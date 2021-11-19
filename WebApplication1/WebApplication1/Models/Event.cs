@@ -17,7 +17,9 @@ namespace WebApplication1.Models
         public string Content { get; set; }
         public int ParticipantsCount { get; set; }
         public decimal Price { get; set; }
-        public int Timestamp { get; set; }
+        public int Duration { get; set; }
         public string TicketsLink { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
     }
 }
