@@ -41,8 +41,8 @@ time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate-part
 end_time = (time_list[0].find_all('span')[0]).string # event end time
 time_zone = (time_list[0].find_all('span')[1]).string # event time zone
 
-location = event_content.find_all('p', class_="wrap--singleLine--truncate")
-
+location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
+location = location_list[0].string # event location
 print(location)
 
 driver.close()
