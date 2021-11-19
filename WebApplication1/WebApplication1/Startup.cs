@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.Models;
 
 namespace WebApplication1
 {
@@ -24,6 +26,9 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IDatabaseContext>(provider => provider.GetService<DatabaseContext>());
+
+            services.AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase(databaseName: "DatabaseContext"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
