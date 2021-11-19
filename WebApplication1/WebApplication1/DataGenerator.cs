@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WebApplication1.Models;
 
-namespace WebApplication1.Models
+namespace WebApplication1
 {
     public class DataGenerator
     {
@@ -39,7 +38,9 @@ namespace WebApplication1.Models
                      ParticipantsCount = 10,
                      Price = 0,
                      TicketsLink = "www.urllink.com",
-                     Timestamp = 120
+                     Duration = 120,
+                     Longitude = 20,
+                     Latitude = 30
                     },
                     new Event
                     {
@@ -51,7 +52,9 @@ namespace WebApplication1.Models
                         ParticipantsCount = 20,
                         Price = 0,
                         TicketsLink = "www.urllink2.com",
-                        Timestamp = 122
+                        Duration = 122,
+                        Longitude = 30,
+                        Latitude = 40
                     }
                 );
 

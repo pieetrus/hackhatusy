@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -22,7 +23,18 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var data = _context.Events
+                .Include(x => x.Organizer)
+                .Include(x => x.Category)
+                .ToList();
+
+
+            var viewModel = new EventsViewModel
+            {
+                Events = data
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
