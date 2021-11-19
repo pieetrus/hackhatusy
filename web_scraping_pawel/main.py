@@ -24,6 +24,7 @@ for card in event_cards:
     event_links.append(event_link)
 
 sample_event = ''
+print(len(event_links))
 for link in event_links:
     # print(link)
     if '282122167' in link:
@@ -33,16 +34,17 @@ for link in event_links:
 event_content = get_html(sample_event)
 
 title = event_content.find('title').string # event title
-date_list = event_content.find_all('span', class_="eventTimeDisplay-startDate")
-date = date_list[0].string # event date
-time_list = event_content.find_all('span', class_="eventTimeDisplay-startDate-time")
-start_time = time_list[0].string # event start time
+date = event_content.find('span', class_="eventTimeDisplay-startDate").string # event date
+start_time = event_content.find('span', class_="eventTimeDisplay-startDate-time").string # event start time
 time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate-partialTime")
 end_time = (time_list[0].find_all('span')[0]).string # event end time
 time_zone = (time_list[0].find_all('span')[1]).string # event time zone
 
 location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
 location = location_list[0].string # event location
-print(location)
+
+district_list = event_content.find('p', class_="venueDisplay-venue-address")
+
+print(district_list)
 
 driver.close()
