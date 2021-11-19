@@ -1,48 +1,30 @@
 import requests
+import bs4
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+import time
 
-service = Service("C:\pawel_workspace\web_scraping\chromedriver\chromedriver.exe")
-driver = webdriver.Chrome(service=service)
-URL = "https://www.meetup.com/pl-PL/find/?location=pl--Wroclaw&source=EVENTS&eventType=inPerson"
+##options
+chrome_options = Options()
+#chrome_options.add_argument("--headless")
+#chrome_options.add_argument("--no-sandbox")
 
-def get_html(url):
-    driver.get(url)
-    content = driver.page_source
-    # print(content)'
-    soup = BeautifulSoup(content, features='html.parser')
-    return soup
 
-# print(list(body.children))
+s = Service('D:/chromedriver.exe')
+driver = webdriver.Chrome(service=s, chrome_options=chrome_options)
+driver.maximize_window()
+driver.get('https://www.facebook.com/events/search/?q=wroc%C5%82aw')
+time.sleep(2)
+driver.execute_script('window.scrollBy(0,2500)', '')
+#driver.find_element_by_xpath('//*[@id="uc-btn-accept-banner"]').click()
+content = driver.page_source
 
-wroclaw_events_content = get_html(URL)
-event_cards = wroclaw_events_content.find_all('a', id='event-card-in-search-results')
-event_links = []
-for card in event_cards:
-    event_link = card.get('href')
-    event_links.append(event_link)
-
-sample_event = ''
-for link in event_links:
-    # print(link)
-    if '282122167' in link:
-        sample_event = link
-        # print(sample_event)
-
-event_content = get_html(sample_event)
-
-title = event_content.find('title').string # event title
-date_list = event_content.find_all('span', class_="eventTimeDisplay-startDate")
-date = date_list[0].string # event date
-time_list = event_content.find_all('span', class_="eventTimeDisplay-startDate-time")
-start_time = time_list[0].string # event start time
-time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate-partialTime")
-end_time = (time_list[0].find_all('span')[0]).string # event end time
-time_zone = (time_list[0].find_all('span')[1]).string # event time zone
-
-location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
-location = location_list[0].string # event location
-print(location)
-
-driver.close()
+#response = requests.get('https://www.facebook.com/events/search/?q=wroc%C5%82aw')
+soup = BeautifulSoup(content, 'html.parser')
+aaa = soup.find_all('a')
+for a in aaa:
+    #links = aaa.findAll('href')
+    print(a.get('href'))
