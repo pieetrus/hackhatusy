@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import re
+import csv
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -23,7 +24,6 @@ def get_html(url):
     return soup
 
 
-# print(list(body.children))
 
 wroclaw_events_content = get_html(URL)
 event_cards = wroclaw_events_content.find_all('a', id='event-card-in-search-results')
@@ -34,6 +34,12 @@ for card in event_cards:
 
 sample_event = ''
 print(len(event_links))
+
+header = ['title', 'date', 'start_time', 'location', 'district', 'description', 'latitude', 'longitude']
+with open('output.csv', mode='w', newline='') as csv_file:
+    writer = csv.writer(csv_file)
+    writer.writerow(header)
+
 for link in event_links:
     event_content = get_html(link)
 
@@ -71,3 +77,8 @@ for link in event_links:
     print('desc:', description)
     print('x:', latitude)
     print('y:', longitude)
+
+    data = [title, date, start_time, location, district, description, latitude, longitude]
+    with open('output.csv', mode='a', encoding='UTF8', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(data)
