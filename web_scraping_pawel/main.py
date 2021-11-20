@@ -50,6 +50,7 @@ location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
 location = location_list[0].string # event location
 
 district = event_content.find('p', class_="venueDisplay-venue-address").getText() # event district
-description = event_content.find('div', class_="event-description runningText").getText() # event district
-print(district)
+
+description = event_content.find('div', class_="event-description runningText").getText() # event description
+print(description)
 
