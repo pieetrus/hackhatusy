@@ -4,7 +4,6 @@
 }
 
 <fieldset>
-    <legend style="font-family: Arial Black; color: blue; font-size: large;">Check Bhubaneswar City</legend>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -14,30 +13,13 @@
     <div id="googleMap" style="height:400px;width:100%;"></div>
     <script>
 
-                var map = null;
+        var map = null;
 
-                function myMap() {
-                    var myCenter = new google.maps.LatLng(50, 20);
-        /*            var myCenter2 = new google.maps.LatLng(51, 21);*/
-                    var mapProp = { center: myCenter, zoom: 12, scrollwheel: false, draggable: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
-                    map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-                    var marker = new google.maps.Marker({ position: myCenter });
-                    //var marker2 = new google.maps.Marker({ position: myCenter2 });
-                    marker.setMap(map);
-                    //marker2.setMap(map);
-                }
-
-                function initializeMap(markers){
-                    var GoogleMapOptions = {
-                        center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-                        zoom: 6,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
-                    
-                    map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-
-
-                }
+        function myMap() {
+            var myCenter = new google.maps.LatLng(50, 20);
+            var mapProp = { center: myCenter, zoom: 12, scrollwheel: false, draggable: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
+            map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        }
 
 
     </script>
@@ -146,11 +128,8 @@
 <script>
         function myFunction(_lat, _lng) {
             map.setCenter({lat: _lat, lng: _lng});
-
+                    var myCenter2 = new google.maps.LatLng(_lat, _lng);
+                    var marker2 = new google.maps.Marker({ position: myCenter2 });
+                    marker2.setMap(map);
     }
-            function setMarkers(lat, lon){
-            var myCenter = new google.maps.LatLng(lat, lon);
-             var marker = new google.maps.Marker({ position: myCenter });
-             marker.setMap(map);
-        }
 </script>

@@ -14,6 +14,7 @@ namespace WebApplication1.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IDatabaseContext _context;
+       
 
         public HomeController(ILogger<HomeController> logger, IDatabaseContext context)
         {
@@ -47,5 +48,12 @@ namespace WebApplication1.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //public JsonResult GetMapMarker()
+        //{   
+        //    var ListOfAddress = _context.MapsAddresses.ToList();
+
+        //    return Json(ListOfAddress, JsonRequestBehavior.AllowGet);
+        //}
     }
 }
