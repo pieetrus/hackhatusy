@@ -79,6 +79,6 @@ for link in event_links:
     print('y:', longitude)
 
     data = [title, date, start_time, location, district, description, latitude, longitude]
-    with open('output.csv', mode='a', encoding='UTF8', newline='') as csv_file:
+    with open('output.csv', mode='a', encoding='utf-8', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(data)
