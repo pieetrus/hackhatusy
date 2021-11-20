@@ -51,8 +51,7 @@ for link in event_links:
     description = event_content.find('div', class_="event-description runningText").getText()  # event description
 
     gmaps_link = event_content.find('img', class_="venueMap-mapImg span--100").get('src')
-    print(gmaps_link)
-
+    
     coordinates_pattern = '[0-9][0-9].[0-9]*%2C[0-9][0-9].[0-9]*&'
     coordinates = re.search(coordinates_pattern, gmaps_link).group(0)
     latitude = coordinates[:coordinates.find('%')] # event latitude
