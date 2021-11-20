@@ -13,12 +13,14 @@ service = Service("C:\pawel_workspace\web_scraping\chromedriver\chromedriver.exe
 driver = webdriver.Chrome(service=service, options=chrome_options)
 URL = "https://www.meetup.com/pl-PL/find/?location=pl--Wroclaw&source=EVENTS&eventType=inPerson"
 
+
 def get_html(url):
     driver.get(url)
     content = driver.page_source
     # print(content)'
     soup = BeautifulSoup(content, features='html.parser')
     return soup
+
 
 # print(list(body.children))
 
@@ -39,18 +41,23 @@ for link in event_links:
 
 event_content = get_html(sample_event)
 
-title = event_content.find('title').string # event title
-date = event_content.find('span', class_="eventTimeDisplay-startDate").string # event date
-start_time = event_content.find('span', class_="eventTimeDisplay-startDate-time").string # event start time
+title = event_content.find('title').string  # event title
+date = event_content.find('span', class_="eventTimeDisplay-startDate").string  # event date
+start_time = event_content.find('span', class_="eventTimeDisplay-startDate-time").string  # event start time
 time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate-partialTime")
-end_time = (time_list[0].find_all('span')[0]).string # event end time
-time_zone = (time_list[0].find_all('span')[1]).string # event time zone
+end_time = (time_list[0].find_all('span')[0]).string  # event end time
+time_zone = (time_list[0].find_all('span')[1]).string  # event time zone
 
 location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
-location = location_list[0].string # event location
+location = location_list[0].string  # event location
 
-district = event_content.find('p', class_="venueDisplay-venue-address").getText() # event district
+district = event_content.find('p', class_="venueDisplay-venue-address").getText()  # event district
 
-description = event_content.find('div', class_="event-description runningText").getText() # event description
-print(description)
+description = event_content.find('div', class_="event-description runningText").getText()  # event description
 
+coordinates = event_content.find('a', class_="venueMap-mapLink").get('href')
+start_index = coordinates.find('query=') + len('query=')
+end_index = coordinates.find('%')
+
+latitude = coordinates[start_index:end_index]  # event latitude
+longitude = coordinates[end_index + 3:]  # event longitude
