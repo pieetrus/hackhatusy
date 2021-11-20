@@ -56,19 +56,22 @@ namespace WebApplication1
                     new Event
                     {
                         Id = ++i,
+                        Name = row.ItemArray[0].ToString(),
+                        Date = Convert.ToDateTime(row.ItemArray[1]),
                         Category = new Category
                         {
                             Id = ++i,
-                            Name = row.ItemArray[0].ToString()
+                            Name = row.ItemArray[4].ToString()
                         },
                         Organizer = new Organizer
                         {
                             Id = ++i,
-                            Name = row.ItemArray[0].ToString()
+                            Name = row.ItemArray[4].ToString()
                         },
-                        Longitude = decimal.Parse(row.ItemArray[6].ToString(), culture),
-                        Latitude = decimal.Parse(row.ItemArray[7].ToString(), culture)
+                        Longitude = decimal.Parse(row.ItemArray[7].ToString(), culture),
+                        Latitude = decimal.Parse(row.ItemArray[6].ToString(), culture)
                     });
+                    
                     //Longitude = Convert.ToDecimal(row.ItemArray[6].ToString()),
                     //Latitude = Convert.ToDecimal(row.ItemArray[7].ToString())
                 };

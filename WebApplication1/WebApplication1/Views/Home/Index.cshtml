@@ -30,7 +30,7 @@
 <br />
        <form asp-controller="Home" asp-action="Searchbox" >
     <p>
-        Title: <input type="text" name="SearchString" />
+        Name    : <input type="text" name="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>
@@ -42,23 +42,23 @@
                 @Html.DisplayNameFor(model => model.Events[0].Id)
             </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Events[0].Category)
+             <th>
+                @Html.DisplayNameFor(model => model.Events[0].Name)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Events[0].Organizer)
+                @Html.DisplayName("Location")
             </th>
 
-            <th>
+          @*  <th>
                 @Html.DisplayNameFor(model => model.Events[0].Content)
-            </th>
+            </th>*@
 
             <th>
                 @Html.DisplayNameFor(model => model.Events[0].Date)
             </th>
 
-            <th>
+        @*    <th>
                 @Html.DisplayNameFor(model => model.Events[0].ParticipantsCount)
             </th>
 
@@ -72,7 +72,7 @@
 
             <th>
                 @Html.DisplayNameFor(model => model.Events[0].TicketsLink)
-            </th>
+            </th>*@
             <th>
                 Button
             </th>
@@ -87,18 +87,18 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Category.Name)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Organizer.Name)
-                </td>
-                <td>
+             @*   <td>
                     @Html.DisplayFor(modelItem => item.Content)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.ParticipantsCount)
                 </td>
                 <td>
@@ -109,19 +109,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TicketsLink)
-                </td>
+                </td>*@
                 <td>
-                    <button class="btn btn-primary" onclick="myFunction(@item.Latitude, @item.Longitude)">Show on map</button>
+                    <button class="btn btn-primary" onclick="myFunction(@item.Latitude.ToString().Replace(",", "."), @item.Longitude.ToString().Replace(",", "."))">Show on map</button>
                 </td>
-                @*<td>
-                    <img src="~/images/@item.PhotoPath" alt="" height="30" />
-                    </td>
-                    <td>
-                    @Html.ActionLink("Edytuj", "EditBrand", new { id = item.Id })
-                    </td>
-                    <td>
-                    @Html.ActionLink("Usuń", "DeleteBrand", new { id = item.Id })
-                    </td>*@
+             
             </tr>
         }
     </tbody>
