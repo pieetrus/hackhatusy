@@ -3,11 +3,33 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<fieldset>
+    <legend style="font-family: Arial Black; color: blue; font-size: large;">Check Bhubaneswar City</legend>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <div id="googleMap" style="height:400px;width:100%;"></div>
+    <script>
+
+        function myMap() {
+            var myCenter = new google.maps.LatLng(50, 20);
+            var myCenter2 = new google.maps.LatLng(51, 21);
+            var mapProp = { center: myCenter, zoom: 12, scrollwheel: false, draggable: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            var marker = new google.maps.Marker({ position: myCenter });
+            var marker2 = new google.maps.Marker({ position: myCenter2 });
+            marker.setMap(map);
+            marker2.setMap(map);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIIzrfDWhJDmExM3txDBBeNoIFWGP2LOA&callback=myMap"></script>
+</fieldset>
+
+<br />
+<br />
 <table class="table table-striped table-condensed">
     <thead>
         <tr>
@@ -16,11 +38,11 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Events[0].Category.Name)
+                @Html.DisplayNameFor(model => model.Events[0].Category)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Events[0].Organizer.Name)
+                @Html.DisplayNameFor(model => model.Events[0].Organizer)
             </th>
 
             <th>
@@ -52,50 +74,50 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Events)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Organizer.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParticipantsCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketsLink)
-            </td>
-            <td>
-                <button>Show on map</button>
-            </td>
-            @*<td>
-            <img src="~/images/@item.PhotoPath" alt="" height="30" />
-        </td>
-        <td>
-            @Html.ActionLink("Edytuj", "EditBrand", new { id = item.Id })
-        </td>
-        <td>
-            @Html.ActionLink("Usuń", "DeleteBrand", new { id = item.Id })
-        </td>*@
-        </tr>
-    }
+        @foreach (var item in Model.Events)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Organizer.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParticipantsCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketsLink)
+                </td>
+                <td>
+                    <button onclick="">Show on map</button>
+                </td>
+                @*<td>
+                        <img src="~/images/@item.PhotoPath" alt="" height="30" />
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edytuj", "EditBrand", new { id = item.Id })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Usuń", "DeleteBrand", new { id = item.Id })
+                    </td>*@
+            </tr>
+        }
     </tbody>
 </table>
 

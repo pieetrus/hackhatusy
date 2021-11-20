@@ -3,15 +3,18 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+import re
+import csv
 
-##options
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 
 service = Service("C:\pawel_workspace\web_scraping\chromedriver\chromedriver.exe")
 driver = webdriver.Chrome(service=service, options=chrome_options)
-URL = "https://www.meetup.com/pl-PL/find/?location=pl--Wroclaw&source=EVENTS&eventType=inPerson"
+# URL = "https://www.meetup.com/pl-PL/find/?location=pl--Wroclaw&source=EVENTS&eventType=inPerson"
+URL = "https://www.meetup.com/pl-PL/find/?location=pl--Warszawa&source=EVENTS&eventType=inPerson"
+
 
 def get_html(url):
     driver.get(url)
@@ -20,7 +23,7 @@ def get_html(url):
     soup = BeautifulSoup(content, features='html.parser')
     return soup
 
-# print(list(body.children))
+
 
 wroclaw_events_content = get_html(URL)
 event_cards = wroclaw_events_content.find_all('a', id='event-card-in-search-results')
@@ -31,25 +34,51 @@ for card in event_cards:
 
 sample_event = ''
 print(len(event_links))
+
+header = ['title', 'date', 'start_time', 'location', 'district', 'description', 'latitude', 'longitude']
+with open('output.csv', mode='w', newline='') as csv_file:
+    writer = csv.writer(csv_file)
+    writer.writerow(header)
+
 for link in event_links:
+    event_content = get_html(link)
+
+    title = event_content.find('title').string  # event title
+    date = event_content.find('span', class_="eventTimeDisplay-startDate").string  # event date
+    start_time = event_content.find('span', class_="eventTimeDisplay-startDate-time").string  # event start time
+
+    # time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate").getText()
+    # print(time_list)
     # print(link)
-    if '282122167' in link:
-        sample_event = link
-        # print(sample_event)
+    # end_time = (time_list[0].find_all('span')[0]).string  # event end time
+    # time_zone = (time_list[0].find_all('span')[1]).string  # event time zone
 
-event_content = get_html(sample_event)
+    location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
+    location = location_list[0].string  # event location
 
-title = event_content.find('title').string # event title
-date = event_content.find('span', class_="eventTimeDisplay-startDate").string # event date
-start_time = event_content.find('span', class_="eventTimeDisplay-startDate-time").string # event start time
-time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate-partialTime")
-end_time = (time_list[0].find_all('span')[0]).string # event end time
-time_zone = (time_list[0].find_all('span')[1]).string # event time zone
+    district = event_content.find('p', class_="venueDisplay-venue-address").getText()  # event district
 
-location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
-location = location_list[0].string # event location
+    description = event_content.find('div', class_="event-description runningText").getText()  # event description
 
-district = event_content.find('p', class_="venueDisplay-venue-address").getText() # event district
-description = event_content.find('div', class_="event-description runningText").getText() # event district
-print(district)
+    gmaps_link = event_content.find('img', class_="venueMap-mapImg span--100").get('src')
 
+    coordinates_pattern = '[0-9][0-9].[0-9]*%2C[0-9][0-9].[0-9]*&'
+    coordinates = re.search(coordinates_pattern, gmaps_link).group(0)
+    latitude = coordinates[:coordinates.find('%')] # event latitude
+    longitude = coordinates[coordinates.find('%')+3:coordinates.find('&')] # event longitude
+
+    print('title:', title)
+    print('date:', date)
+    print('start time:', start_time)
+    # print('end time:', end_time)
+    # print('time zone:', time_zone)
+    print('location:', location)
+    print('district:', district)
+    print('desc:', description)
+    print('x:', latitude)
+    print('y:', longitude)
+
+    data = [title, date, start_time, location, district, description, latitude, longitude]
+    with open('output.csv', mode='a', encoding='utf-8', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(data)
