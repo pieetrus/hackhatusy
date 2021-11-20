@@ -14,16 +14,19 @@
     <div id="googleMap" style="height:400px;width:100%;"></div>
     <script>
 
+        var map = null;
+
         function myMap() {
             var myCenter = new google.maps.LatLng(50, 20);
             var myCenter2 = new google.maps.LatLng(51, 21);
             var mapProp = { center: myCenter, zoom: 12, scrollwheel: false, draggable: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
-            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
             var marker = new google.maps.Marker({ position: myCenter });
             var marker2 = new google.maps.Marker({ position: myCenter2 });
             marker.setMap(map);
             marker2.setMap(map);
         }
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIIzrfDWhJDmExM3txDBBeNoIFWGP2LOA&callback=myMap"></script>
 </fieldset>
@@ -105,16 +108,16 @@
                     @Html.DisplayFor(modelItem => item.TicketsLink)
                 </td>
                 <td>
-                    <button onclick="">Show on map</button>
+                    <button class="btn btn-primary" onclick="myFunction(@item.Latitude, @item.Longitude)">Show on map</button>
                 </td>
                 @*<td>
-                        <img src="~/images/@item.PhotoPath" alt="" height="30" />
+                    <img src="~/images/@item.PhotoPath" alt="" height="30" />
                     </td>
                     <td>
-                        @Html.ActionLink("Edytuj", "EditBrand", new { id = item.Id })
+                    @Html.ActionLink("Edytuj", "EditBrand", new { id = item.Id })
                     </td>
                     <td>
-                        @Html.ActionLink("Usuń", "DeleteBrand", new { id = item.Id })
+                    @Html.ActionLink("Usuń", "DeleteBrand", new { id = item.Id })
                     </td>*@
             </tr>
         }
@@ -122,3 +125,8 @@
 </table>
 
 
+<script>
+        function myFunction(_lat, _lng) {            
+            map.setCenter({lat: _lat, lng: _lng});;
+    }
+</script>
