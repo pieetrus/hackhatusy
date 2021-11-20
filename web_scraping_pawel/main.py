@@ -2,9 +2,15 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+
+##options
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
 
 service = Service("C:\pawel_workspace\web_scraping\chromedriver\chromedriver.exe")
-driver = webdriver.Chrome(service=service)
+driver = webdriver.Chrome(service=service, options=chrome_options)
 URL = "https://www.meetup.com/pl-PL/find/?location=pl--Wroclaw&source=EVENTS&eventType=inPerson"
 
 def get_html(url):
@@ -43,8 +49,7 @@ time_zone = (time_list[0].find_all('span')[1]).string # event time zone
 location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
 location = location_list[0].string # event location
 
-district_list = event_content.find('p', class_="venueDisplay-venue-address")
+district = event_content.find('p', class_="venueDisplay-venue-address").getText() # event district
+description = event_content.find('div', class_="event-description runningText").getText() # event district
+print(district)
 
-print(district_list)
-
-driver.close()
