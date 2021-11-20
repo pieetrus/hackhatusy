@@ -40,4 +40,4 @@ for event_id in event_ids:
     driver.get(event_link)
     event_content = driver.page_source
     event_soup = BeautifulSoup(event_content, 'html.parser')
-    print(event_soup)
+    
