@@ -14,18 +14,31 @@
     <div id="googleMap" style="height:400px;width:100%;"></div>
     <script>
 
-        var map = null;
+                var map = null;
 
-        function myMap() {
-            var myCenter = new google.maps.LatLng(50, 20);
-            var myCenter2 = new google.maps.LatLng(51, 21);
-            var mapProp = { center: myCenter, zoom: 12, scrollwheel: false, draggable: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
-            map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-            var marker = new google.maps.Marker({ position: myCenter });
-            var marker2 = new google.maps.Marker({ position: myCenter2 });
-            marker.setMap(map);
-            marker2.setMap(map);
-        }
+                function myMap() {
+                    var myCenter = new google.maps.LatLng(50, 20);
+        /*            var myCenter2 = new google.maps.LatLng(51, 21);*/
+                    var mapProp = { center: myCenter, zoom: 12, scrollwheel: false, draggable: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
+                    map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                    var marker = new google.maps.Marker({ position: myCenter });
+                    //var marker2 = new google.maps.Marker({ position: myCenter2 });
+                    marker.setMap(map);
+                    //marker2.setMap(map);
+                }
+
+                function initializeMap(markers){
+                    var GoogleMapOptions = {
+                        center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                        zoom: 6,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                    
+                    map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+
+                }
+
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIIzrfDWhJDmExM3txDBBeNoIFWGP2LOA&callback=myMap"></script>
@@ -33,6 +46,10 @@
 
 <br />
 <br />
+<input type="search" id="site-search" name="q"
+       aria-label="Search through site content">
+
+<button>Search</button>
 <table class="table table-striped table-condensed">
     <thead>
         <tr>
@@ -79,6 +96,7 @@
     <tbody>
         @foreach (var item in Model.Events)
         {
+            <script>setMarkers(@item.Latitude, @item.Longitude);</script>
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
@@ -126,7 +144,13 @@
 
 
 <script>
-        function myFunction(_lat, _lng) {            
-            map.setCenter({lat: _lat, lng: _lng});;
+        function myFunction(_lat, _lng) {
+            map.setCenter({lat: _lat, lng: _lng});
+
     }
+            function setMarkers(lat, lon){
+            var myCenter = new google.maps.LatLng(lat, lon);
+             var marker = new google.maps.Marker({ position: myCenter });
+             marker.setMap(map);
+        }
 </script>
