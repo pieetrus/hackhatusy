@@ -38,6 +38,23 @@ namespace WebApplication1.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> Searchbox(string searchbox)
+        {
+            var data = await _context.Events
+                .Include(x => x.Organizer)
+                .Include(x => x.Category)
+                .Where(x => x.Name.Contains(searchbox))
+                .ToListAsync();
+
+
+            var viewModel = new EventsViewModel
+            {
+                Events = data
+            };
+
+            return View(viewModel);
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -23,6 +23,7 @@ namespace WebApplication1
                     new Event
                     {
                      Id   = 1,
+                     Name = "Name1",
                      Organizer = new Organizer
                      {
                          Id = 1,
