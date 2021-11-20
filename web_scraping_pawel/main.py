@@ -11,7 +11,8 @@ chrome_options.add_argument("--no-sandbox")
 
 service = Service("C:\pawel_workspace\web_scraping\chromedriver\chromedriver.exe")
 driver = webdriver.Chrome(service=service, options=chrome_options)
-URL = "https://www.meetup.com/pl-PL/find/?location=pl--Wroclaw&source=EVENTS&eventType=inPerson"
+# URL = "https://www.meetup.com/pl-PL/find/?location=pl--Wroclaw&source=EVENTS&eventType=inPerson"
+URL = "https://www.meetup.com/pl-PL/find/?location=pl--Warszawa&source=EVENTS&eventType=inPerson"
 
 
 def get_html(url):
@@ -39,9 +40,12 @@ for link in event_links:
     title = event_content.find('title').string  # event title
     date = event_content.find('span', class_="eventTimeDisplay-startDate").string  # event date
     start_time = event_content.find('span', class_="eventTimeDisplay-startDate-time").string  # event start time
-    time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate-partialTime")
-    end_time = (time_list[0].find_all('span')[0]).string  # event end time
-    time_zone = (time_list[0].find_all('span')[1]).string  # event time zone
+
+    # time_list = event_content.find_all('span', class_="eventTimeDisplay-endDate").getText()
+    # print(time_list)
+    # print(link)
+    # end_time = (time_list[0].find_all('span')[0]).string  # event end time
+    # time_zone = (time_list[0].find_all('span')[1]).string  # event time zone
 
     location_list = event_content.find_all('p', class_="wrap--singleLine--truncate")
     location = location_list[0].string  # event location
@@ -51,7 +55,7 @@ for link in event_links:
     description = event_content.find('div', class_="event-description runningText").getText()  # event description
 
     gmaps_link = event_content.find('img', class_="venueMap-mapImg span--100").get('src')
-    
+
     coordinates_pattern = '[0-9][0-9].[0-9]*%2C[0-9][0-9].[0-9]*&'
     coordinates = re.search(coordinates_pattern, gmaps_link).group(0)
     latitude = coordinates[:coordinates.find('%')] # event latitude
@@ -60,8 +64,8 @@ for link in event_links:
     print('title:', title)
     print('date:', date)
     print('start time:', start_time)
-    print('end time:', end_time)
-    print('time zone:', time_zone)
+    # print('end time:', end_time)
+    # print('time zone:', time_zone)
     print('location:', location)
     print('district:', district)
     print('desc:', description)
